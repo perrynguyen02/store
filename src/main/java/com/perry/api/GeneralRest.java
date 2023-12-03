@@ -1,4 +1,4 @@
-package com.perry.rest;
+package com.perry.api;
 
 import java.util.List;
 import java.util.UUID;

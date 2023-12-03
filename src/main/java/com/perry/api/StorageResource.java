@@ -1,4 +1,4 @@
-package com.perry.rest;
+package com.perry.api;
 
 import com.perry.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;

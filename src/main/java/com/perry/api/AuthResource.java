@@ -1,5 +1,6 @@
-package com.perry.rest;
+package com.perry.api;
 
+import com.perry.config.LogoutService;
 import com.perry.model.request.AuthenticationRequest;
 import com.perry.model.request.RegisterRequest;
 import com.perry.model.response.AuthenticationResponse;
@@ -7,6 +8,7 @@ import com.perry.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,9 @@ import java.io.IOException;
 public class AuthResource {
     @Autowired
     private AuthenticationService authenticationService;
+
+    @Autowired
+    private LogoutService logoutService;
 
     @PostMapping("/register")
     public AuthenticationResponse register(@RequestBody RegisterRequest registerRequest) {
@@ -33,5 +38,10 @@ public class AuthResource {
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authenticationService.refreshToken(request, response);
+    }
+
+    @PostMapping("/logout")
+    public void logoutToken(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+        logoutService.logout(request, response, authentication);
     }
 }

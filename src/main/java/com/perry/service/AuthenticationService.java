@@ -1,6 +1,7 @@
 package com.perry.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.perry.config.jwt.JwtService;
 import com.perry.model.entity.token.Token;
 import com.perry.model.entity.token.TokenType;
@@ -26,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -49,7 +51,7 @@ public class AuthenticationService {
                 .lastname(registerRequest.getLastname())
                 .address(registerRequest.getAddress())
                 .phone(registerRequest.getPhone())
-                .role(Role.ADMIN)
+                .role(Role.USER)
                 .build();
         userRepository.save(user);
 
@@ -80,14 +82,14 @@ public class AuthenticationService {
         String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         String refreshToken;
         String username;
-        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
         username = jwtService.getUsername(refreshToken);
-        if(username != null) {
+        if (username != null) {
             User user = userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-            if(jwtService.isTokenValid(refreshToken, user)) {
+            if (jwtService.isTokenValid(refreshToken, user)) {
                 String accessToken = jwtService.generateToken(user);
                 revokeAllUserToken(user);
                 saveUserToken(user, accessToken);
@@ -113,7 +115,7 @@ public class AuthenticationService {
 
     private void revokeAllUserToken(User user) {
         List<Token> validUserToken = tokenRepository.findAllValidTokenByUser(user.getUuid());
-        if(validUserToken.isEmpty()) return;
+        if (validUserToken.isEmpty()) return;
         validUserToken.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);

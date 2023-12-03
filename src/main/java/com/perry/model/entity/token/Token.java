@@ -21,7 +21,7 @@ public class Token {
     private UUID uuid;
     private String token;
     @Enumerated(EnumType.STRING)
-    public TokenType tokenType = TokenType.BEARER;
+    public TokenType tokenType;
     private boolean revoked;
     private boolean expired;
 

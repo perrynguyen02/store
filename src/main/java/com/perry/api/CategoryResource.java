@@ -1,4 +1,4 @@
-package com.perry.rest;
+package com.perry.api;
 
 import com.perry.model.dto.CategoryDto;
 import com.perry.model.entity.Category;

@@ -1,6 +1,7 @@
 package com.perry.repository;
 
 import com.perry.model.entity.token.Token;
+import com.perry.model.entity.token.TokenType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,4 +18,5 @@ public interface TokenRepository extends JpaRepository<Token, UUID> {
     List<Token> findAllValidTokenByUser(UUID uuid);
 
     Optional<Token> findByToken(String token);
+
 }
