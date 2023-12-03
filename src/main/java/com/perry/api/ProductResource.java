@@ -4,9 +4,7 @@ import com.perry.model.dto.ProductDto;
 import com.perry.model.entity.Product;
 import com.perry.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,18 +26,21 @@ public class ProductResource implements GeneralRest<Product, ProductDto> {
         return null;
     }
 
+    @PostMapping("/create")
     @Override
-    public Product create(ProductDto productDto) {
-        return null;
+    public Product create(@RequestBody ProductDto productDto) {
+        return productService.create(productDto);
     }
 
+    @PutMapping("/update/{uuid}")
     @Override
-    public Product update(UUID uuid, ProductDto productDto) {
-        return null;
+    public Product update(@PathVariable("uuid") UUID uuid, @RequestBody ProductDto productDto) {
+        return productService.update(uuid, productDto);
     }
 
+    @DeleteMapping("/delete/{uuid}")
     @Override
-    public void delete(UUID uuid) {
-
+    public void delete(@PathVariable("uuid") UUID uuid) {
+        productService.delete(uuid);
     }
 }

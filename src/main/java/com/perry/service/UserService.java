@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
+@Service
 public class UserService implements GeneralService<User, UserDto> {
     @Autowired
     private UserRepository userRepository;
@@ -36,6 +38,10 @@ public class UserService implements GeneralService<User, UserDto> {
 
         // save the new password
         userRepository.save(user);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     @Override
